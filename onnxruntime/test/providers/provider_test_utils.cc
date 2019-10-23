@@ -16,7 +16,7 @@
 
 #ifdef MICROSOFT_AUTOML
 #include "automl_ops/automl_featurizers.h"
-namespace dtf = Microsoft::Featurizer::DateTimeFeaturizer;
+namespace dtf = Microsoft::Featurizer::Featurizers;
 #endif
 
 using namespace ::onnxruntime::logging;

@@ -7,15 +7,18 @@
 
 #include "core/automl/featurizers/src/FeaturizerPrep/Featurizers/DateTimeFeaturizer.h"
 
-namespace dtf = Microsoft::Featurizer::DateTimeFeaturizer;
+namespace dtf = Microsoft::Featurizer::Featurizers;
 
 namespace onnxruntime {
 namespace automl {
 
 class DateTimeTransformer final : public OpKernel {
  public:
-  explicit DateTimeTransformer(const OpKernelInfo& info) : OpKernel(info) {}
+  explicit DateTimeTransformer(const OpKernelInfo& info) : OpKernel(info), transformer("", "") {}
   Status Compute(OpKernelContext* context) const override;
+
+private:
+  dtf::DateTimeTransformer transformer;
 };
 
 Status DateTimeTransformer::Compute(OpKernelContext* ctx) const {
@@ -24,8 +27,8 @@ Status DateTimeTransformer::Compute(OpKernelContext* ctx) const {
   dtf::TimePoint* output = ctx->Output<dtf::TimePoint>(0);
 
   int64_t tp = *input_tensor->Data<int64_t>();
-  std::chrono::system_clock::time_point sys_time{std::chrono::seconds(tp)};
-  *output = dtf::SystemToDPTimePoint(sys_time);
+  // BugBug *output = ((const dtf::DateTimeTransformer&)transformer).execute(tp);
+  new (output) dtf::TimePoint(const_cast<dtf::DateTimeTransformer&>(transformer).execute(tp));
   return s;
 }
 
@@ -36,7 +39,7 @@ ONNX_OPERATOR_KERNEL_EX(
     kCpuExecutionProvider,
     KernelDefBuilder()
         .TypeConstraint("T1", DataTypeImpl::GetTensorType<int64_t>())
-        .TypeConstraint("T2", DataTypeImpl::GetType<Microsoft::Featurizer::DateTimeFeaturizer::TimePoint>()),
+        .TypeConstraint("T2", DataTypeImpl::GetType<Microsoft::Featurizer::Featurizers::TimePoint>()),
     DateTimeTransformer);
 }  // namespace automl
 }  // namespace onnxruntime

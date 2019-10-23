@@ -6,7 +6,7 @@
 
 #include "core/automl/featurizers/src/FeaturizerPrep/Featurizers/DateTimeFeaturizer.h"
 
-namespace dft = Microsoft::Featurizer::DateTimeFeaturizer;
+namespace dft = Microsoft::Featurizer::Featurizers;
 
 using SysClock = std::chrono::system_clock;
 
@@ -46,10 +46,8 @@ TEST(DateTimeTransformer, Past_1976_Nov_17__12_27_05) {
   // We are adding a scalar Tensor in this instance
   test.AddInput<int64_t>("X", {1}, {date});
 
-  SysClock::time_point stp = SysClock::from_time_t(date);
-
-  dft::Transformer dt;
-  dft::TimePoint tp = dt.transform(stp);
+  dft::DateTimeTransformer dt("", "");
+  dft::TimePoint tp = dt.execute(date);
   ASSERT_EQ(tp.year, 1976);
   ASSERT_EQ(tp.month, dft::TimePoint::NOVEMBER);
   ASSERT_EQ(tp.day, 17);
@@ -75,8 +73,8 @@ TEST(DateTimeTransformer, Future_2025_June_30) {
 
   SysClock::time_point stp = SysClock::from_time_t(date);
 
-  dft::Transformer dt;
-  dft::TimePoint tp = dt.transform(stp);
+  dft::DateTimeTransformer dt("", "");
+  dft::TimePoint tp = dt.execute(date);
   ASSERT_EQ(tp.year, 2025);
   ASSERT_EQ(tp.month, dft::TimePoint::JUNE);
   ASSERT_EQ(tp.day, 30);

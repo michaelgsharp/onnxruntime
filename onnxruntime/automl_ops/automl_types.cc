@@ -9,7 +9,7 @@
 #include "automl_ops/automl_types.h"
 #include "automl_ops/automl_featurizers.h"
 
-namespace dtf = Microsoft::Featurizer::DateTimeFeaturizer;
+namespace dtf = Microsoft::Featurizer::Featurizers;
 
 namespace onnxruntime {
 
@@ -28,7 +28,7 @@ struct NonTensorTypeConverter<dtf::TimePoint> {
   static void FromContainer(MLDataType dtype, const void* data, size_t data_size, OrtValue& output) {
     ORT_ENFORCE(sizeof(DateTimeFeaturizerTimePointData) == data_size, "Expecting an instance of ExternalTimePoint");
     const DateTimeFeaturizerTimePointData* dc = reinterpret_cast<const DateTimeFeaturizerTimePointData*>(data);
-    std::unique_ptr<dtf::TimePoint> tp(new dtf::TimePoint);
+    std::unique_ptr<dtf::TimePoint> tp(new dtf::TimePoint());
     tp->year = dc->year;
     tp->month = dc->month;
     tp->day = dc->day;
