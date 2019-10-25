@@ -14,11 +14,9 @@ namespace automl {
 
 class DateTimeTransformer final : public OpKernel {
  public:
-  explicit DateTimeTransformer(const OpKernelInfo& info) : OpKernel(info), transformer("", "") {}
+  explicit DateTimeTransformer(const OpKernelInfo& info) : OpKernel(info) {}
   Status Compute(OpKernelContext* context) const override;
 
-private:
-  dtf::DateTimeTransformer transformer;
 };
 
 Status DateTimeTransformer::Compute(OpKernelContext* ctx) const {
@@ -28,7 +26,13 @@ Status DateTimeTransformer::Compute(OpKernelContext* ctx) const {
 
   int64_t tp = *input_tensor->Data<int64_t>();
   // BugBug *output = ((const dtf::DateTimeTransformer&)transformer).execute(tp);
-  new (output) dtf::TimePoint(const_cast<dtf::DateTimeTransformer&>(transformer).execute(tp));
+  //dtf::TimePoint temp = const_cast<dtf::DateTimeTransformer&>(transformer).execute(tp);
+  //temp.do_something_bugbug();
+  //static_assert(std::is_same<decltype(temp), dtf::TimePoint>::value, "BugBug");
+  dtf::DateTimeTransformer transformer("", "");
+  *output = transformer.execute(tp);  //const_cast<dtf::DateTimeTransformer&>(transformer).execute(tp);
+  //
+  //new (output) dtf::TimePoint(const_cast<dtf::DateTimeTransformer&>(transformer).execute(tp));
   return s;
 }
 
