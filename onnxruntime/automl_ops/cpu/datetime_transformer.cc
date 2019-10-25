@@ -16,7 +16,6 @@ class DateTimeTransformer final : public OpKernel {
  public:
   explicit DateTimeTransformer(const OpKernelInfo& info) : OpKernel(info) {}
   Status Compute(OpKernelContext* context) const override;
-
 };
 
 Status DateTimeTransformer::Compute(OpKernelContext* ctx) const {
@@ -25,14 +24,14 @@ Status DateTimeTransformer::Compute(OpKernelContext* ctx) const {
   dtf::TimePoint* output = ctx->Output<dtf::TimePoint>(0);
 
   int64_t tp = *input_tensor->Data<int64_t>();
-  // BugBug *output = ((const dtf::DateTimeTransformer&)transformer).execute(tp);
-  //dtf::TimePoint temp = const_cast<dtf::DateTimeTransformer&>(transformer).execute(tp);
-  //temp.do_something_bugbug();
-  //static_assert(std::is_same<decltype(temp), dtf::TimePoint>::value, "BugBug");
+
   dtf::DateTimeTransformer transformer("", "");
-  *output = transformer.execute(tp);  //const_cast<dtf::DateTimeTransformer&>(transformer).execute(tp);
-  //
-  //new (output) dtf::TimePoint(const_cast<dtf::DateTimeTransformer&>(transformer).execute(tp));
+  //dtf::TimePoint tpa(transformer.execute(tp));
+  //auto temp = transformer.execute(tp);
+  //*output = std::move(temp);
+  //dtf::TimePoint temp = transformer.execute(tp);
+  *output = std::move(transformer.execute(tp));
+
   return s;
 }
 

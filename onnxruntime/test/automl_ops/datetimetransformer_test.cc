@@ -23,16 +23,28 @@ TEST(DateTimeTransformer, Past_1976_Nov_17__12_27_04) {
 
   SysClock::time_point stp = SysClock::from_time_t(date);
   dft::TimePoint tp(stp);
+
   ASSERT_EQ(tp.year, 1976);
   ASSERT_EQ(tp.month, dft::TimePoint::NOVEMBER);
   ASSERT_EQ(tp.day, 17);
   ASSERT_EQ(tp.hour, 12);
   ASSERT_EQ(tp.minute, 27);
   ASSERT_EQ(tp.second, 4);
+  ASSERT_EQ(tp.amPm, 1);
+  ASSERT_EQ(tp.hour12, 12);
   ASSERT_EQ(tp.dayOfWeek, dft::TimePoint::WEDNESDAY);
+  ASSERT_EQ(tp.dayOfQuarter, 48);
   ASSERT_EQ(tp.dayOfYear, 321);
-  ASSERT_EQ(tp.quarterOfYear, 4);
   ASSERT_EQ(tp.weekOfMonth, 2);
+  ASSERT_EQ(tp.quarterOfYear, 4);
+  ASSERT_EQ(tp.halfOfYear, 2);
+  ASSERT_EQ(tp.weekIso, 47);
+  ASSERT_EQ(tp.yearIso, 1976);
+  ASSERT_EQ(tp.monthLabel, "November");
+  ASSERT_EQ(tp.amPmLabel, "pm");
+  ASSERT_EQ(tp.dayOfWeekLabel, "Wednesday");
+  ASSERT_EQ(tp.holidayName, "");
+  ASSERT_EQ(tp.isPaidTimeOff, 0);
 
   // Expected output.
   test.AddOutput<dft::TimePoint>("Y", std::move(tp));
@@ -54,10 +66,21 @@ TEST(DateTimeTransformer, Past_1976_Nov_17__12_27_05) {
   ASSERT_EQ(tp.hour, 12);
   ASSERT_EQ(tp.minute, 27);
   ASSERT_EQ(tp.second, 5);
+  ASSERT_EQ(tp.amPm, 1);
+  ASSERT_EQ(tp.hour12, 12);
   ASSERT_EQ(tp.dayOfWeek, dft::TimePoint::WEDNESDAY);
+  ASSERT_EQ(tp.dayOfQuarter, 48);
   ASSERT_EQ(tp.dayOfYear, 321);
-  ASSERT_EQ(tp.quarterOfYear, 4);
   ASSERT_EQ(tp.weekOfMonth, 2);
+  ASSERT_EQ(tp.quarterOfYear, 4);
+  ASSERT_EQ(tp.halfOfYear, 2);
+  ASSERT_EQ(tp.weekIso, 47);
+  ASSERT_EQ(tp.yearIso, 1976);
+  ASSERT_EQ(tp.monthLabel, "November");
+  ASSERT_EQ(tp.amPmLabel, "pm");
+  ASSERT_EQ(tp.dayOfWeekLabel, "Wednesday");
+  ASSERT_EQ(tp.holidayName, "");
+  ASSERT_EQ(tp.isPaidTimeOff, 0);
 
   // Expected output.
   test.AddOutput<dft::TimePoint>("Y", std::move(tp));
@@ -85,6 +108,17 @@ TEST(DateTimeTransformer, Future_2025_June_30) {
   ASSERT_EQ(tp.dayOfYear, 180);
   ASSERT_EQ(tp.quarterOfYear, 2);
   ASSERT_EQ(tp.weekOfMonth, 4);
+  ASSERT_EQ(tp.amPm, 0);
+  ASSERT_EQ(tp.hour12, 0);
+  ASSERT_EQ(tp.dayOfQuarter, 91);
+  ASSERT_EQ(tp.halfOfYear, 1);
+  ASSERT_EQ(tp.weekIso, 27);
+  ASSERT_EQ(tp.yearIso, 2025);
+  ASSERT_EQ(tp.monthLabel, "June");
+  ASSERT_EQ(tp.amPmLabel, "am");
+  ASSERT_EQ(tp.dayOfWeekLabel, "Monday");
+  ASSERT_EQ(tp.holidayName, "");
+  ASSERT_EQ(tp.isPaidTimeOff, 0);
 
   test.AddOutput<dft::TimePoint>("Y", std::move(tp));
   test.Run(OpTester::ExpectResult::kExpectSuccess);

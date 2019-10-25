@@ -35,10 +35,21 @@ struct NonTensorTypeConverter<dtf::TimePoint> {
     tp->hour = dc->hour;
     tp->minute = dc->minute;
     tp->second = dc->second;
+    tp->amPm = dc->amPm;
+    tp->hour12 = dc->hour12;
     tp->dayOfWeek = dc->dayOfWeek;
+    tp->dayOfQuarter = dc->dayOfQuarter;
     tp->dayOfYear = dc->dayOfYear;
-    tp->quarterOfYear = dc->quarterOfYear;
     tp->weekOfMonth = dc->weekOfMonth;
+    tp->quarterOfYear = dc->quarterOfYear;
+    tp->halfOfYear = dc->halfOfYear;
+    tp->weekIso = dc->weekIso;
+    tp->yearIso = dc->yearIso;
+    tp->monthLabel = dc->monthLabel;
+    tp->amPmLabel = dc->amPmLabel;
+    tp->dayOfWeekLabel = dc->dayOfWeekLabel;
+    tp->holidayName = dc->holidayName;
+    tp->isPaidTimeOff = dc->isPaidTimeOff;
     output.Init(tp.get(),
                 dtype,
                 dtype->GetDeleteFunc());
@@ -54,10 +65,21 @@ struct NonTensorTypeConverter<dtf::TimePoint> {
     dc->hour = tp.hour;
     dc->minute = tp.minute;
     dc->second = tp.second;
+    dc->amPm = tp.amPm;
+    dc->hour12 = tp.hour12;
     dc->dayOfWeek = tp.dayOfWeek;
+    dc->dayOfQuarter = tp.dayOfQuarter;
     dc->dayOfYear = tp.dayOfYear;
-    dc->quarterOfYear = tp.quarterOfYear;
     dc->weekOfMonth = tp.weekOfMonth;
+    dc->quarterOfYear = tp.quarterOfYear;
+    dc->halfOfYear = tp.halfOfYear;
+    dc->weekIso = tp.weekIso;
+    dc->yearIso = tp.yearIso;
+    dc->monthLabel = tp.monthLabel;
+    dc->amPmLabel = tp.amPmLabel;
+    dc->dayOfWeekLabel = tp.dayOfWeekLabel;
+    dc->holidayName = tp.holidayName;
+    dc->isPaidTimeOff = tp.isPaidTimeOff;
   }
 };
 

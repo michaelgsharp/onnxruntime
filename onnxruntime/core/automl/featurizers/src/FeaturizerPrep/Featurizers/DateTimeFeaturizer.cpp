@@ -31,6 +31,8 @@ namespace Featurizers {
 // |  TimePoint
 // |
 // ----------------------------------------------------------------------
+TimePoint::TimePoint() {}
+
 TimePoint::TimePoint(const std::chrono::system_clock::time_point& sysTime) {
     // Get to a tm to get what we need.
     // Eventually C++202x will have expanded chrono support that might
@@ -92,10 +94,6 @@ TimePoint::TimePoint(const std::chrono::system_clock::time_point& sysTime) {
             throw std::invalid_argument("Unknown error converting input date.");
         }
     }
-}
-
-TimePoint::TimePoint() {
-
 }
 
 // ----------------------------------------------------------------------
