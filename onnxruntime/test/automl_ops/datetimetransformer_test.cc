@@ -59,7 +59,7 @@ TEST(DateTimeTransformer, Past_1976_Nov_17__12_27_05) {
   test.AddInput<int64_t>("X", {1}, {date});
 
   dft::DateTimeTransformer dt("", "");
-  dft::TimePoint tp = dt.execute(date);
+  dft::TimePoint tp(dt.execute(date));
   ASSERT_EQ(tp.year, 1976);
   ASSERT_EQ(tp.month, dft::TimePoint::NOVEMBER);
   ASSERT_EQ(tp.day, 17);

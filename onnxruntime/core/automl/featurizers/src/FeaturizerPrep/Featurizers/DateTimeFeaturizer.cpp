@@ -31,7 +31,6 @@ namespace Featurizers {
 // |  TimePoint
 // |
 // ----------------------------------------------------------------------
-TimePoint::TimePoint() {}
 
 TimePoint::TimePoint(const std::chrono::system_clock::time_point& sysTime) {
     // Get to a tm to get what we need.
@@ -347,7 +346,7 @@ DateTimeTransformer::DateTimeTransformer(std::string optionalCountryName, std::s
 
 DateTimeTransformer::TransformedType DateTimeTransformer::execute(InputType input) /*override*/ {
     std::chrono::time_point<std::chrono::system_clock> time(std::chrono::seconds {input} );
-    TimePoint result = TimePoint(time);
+    TimePoint result(time);
 
     if (!_dateHolidayMap.empty()) {
         //Normalize dateKey by cast one day range of time into an exact time
