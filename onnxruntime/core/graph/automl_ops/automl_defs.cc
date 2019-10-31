@@ -70,7 +70,28 @@ void RegisterAutoMLSchemas() {
       .TypeConstraint(
           "T5",
           {"tensor(string)"},
-          "Constrain output type to string");
+          "Constrain output type to string")
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 0); })
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 1); })
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 2); })
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 3); })
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 4); })
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 5); })
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 6); })
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 7); })
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 8); })
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 9); })
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 10); })
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 11); })
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 12); })
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 13); })
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 14); })
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 15); })
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 16); })
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 17); })
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 18); })
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 20); })
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 19); });
   
   MS_AUTOML_OPERATOR_SCHEMA(SampleAdd)
       .SinceVersion(1)
