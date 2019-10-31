@@ -19,7 +19,7 @@ TEST(DateTimeTransformer, Past_1976_Nov_17__12_27_04) {
   OpTester test("DateTimeTransformer", 1, onnxruntime::kMSAutoMLDomain);
 
   // We are adding a scalar Tensor in this instance
-  test.AddInput<int64_t>("X", {1}, {date});
+  test.AddInput<int64_t>("Date", {1}, {date});
 
   SysClock::time_point stp = SysClock::from_time_t(date);
   dft::TimePoint tp(stp);
@@ -56,7 +56,7 @@ TEST(DateTimeTransformer, Past_1976_Nov_17__12_27_05) {
 
   OpTester test("DateTimeTransformer", 1, onnxruntime::kMSAutoMLDomain);
   // We are adding a scalar Tensor in this instance
-  test.AddInput<int64_t>("X", {1}, {date});
+  test.AddInput<int64_t>("Date", {1}, {date});
 
   dft::DateTimeTransformer dt("", "");
   dft::TimePoint tp(dt.execute(date));
@@ -92,7 +92,7 @@ TEST(DateTimeTransformer, Future_2025_June_30) {
 
   OpTester test("DateTimeTransformer", 1, onnxruntime::kMSAutoMLDomain);
   // We are adding a scalar Tensor in this instance
-  test.AddInput<int64_t>("X", {1}, {date});
+  test.AddInput<int64_t>("Date", {1}, {date});
 
   SysClock::time_point stp = SysClock::from_time_t(date);
 
