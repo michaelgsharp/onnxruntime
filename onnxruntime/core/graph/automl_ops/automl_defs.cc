@@ -14,7 +14,6 @@ using ONNX_NAMESPACE::OpSchema;
 using ONNX_NAMESPACE::OPTIONAL;
 
 void RegisterAutoMLSchemas() {
-
   static const char* DateTimeTransformer_ver1_doc = R"DOC(
     DateTimeTransformer accepts a single scalar int64 tensor, constructs
     an instance of std::chrono::system_clock::time_point and passes it as an argument
@@ -71,28 +70,36 @@ void RegisterAutoMLSchemas() {
           "T5",
           {"tensor(string)"},
           "Constrain output type to string")
-      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 0); })
-      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 1); })
-      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 2); })
-      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 3); })
-      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 4); })
-      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 5); })
-      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 6); })
-      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 7); })
-      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 8); })
-      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 9); })
-      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 10); })
-      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 11); })
-      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 12); })
-      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 13); })
-      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 14); })
-      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 15); })
-      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 16); })
-      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 17); })
-      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 18); })
-      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 20); })
-      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) { ONNX_NAMESPACE::propagateShapeFromInputToOutput(ctx, 0, 19); });
-  
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) {
+
+            ctx.getOutputType(0)->mutable_tensor_type()->set_elem_type(6);
+            ctx.getOutputType(1)->mutable_tensor_type()->set_elem_type(2);
+            ctx.getOutputType(2)->mutable_tensor_type()->set_elem_type(2);
+            ctx.getOutputType(3)->mutable_tensor_type()->set_elem_type(2);
+            ctx.getOutputType(4)->mutable_tensor_type()->set_elem_type(2);
+            ctx.getOutputType(5)->mutable_tensor_type()->set_elem_type(2);
+            ctx.getOutputType(6)->mutable_tensor_type()->set_elem_type(2);
+            ctx.getOutputType(7)->mutable_tensor_type()->set_elem_type(2);
+            ctx.getOutputType(8)->mutable_tensor_type()->set_elem_type(2);
+            ctx.getOutputType(9)->mutable_tensor_type()->set_elem_type(2);
+            ctx.getOutputType(10)->mutable_tensor_type()->set_elem_type(4);
+            ctx.getOutputType(12)->mutable_tensor_type()->set_elem_type(4);
+            ctx.getOutputType(12)->mutable_tensor_type()->set_elem_type(2);
+            ctx.getOutputType(13)->mutable_tensor_type()->set_elem_type(2);
+            ctx.getOutputType(14)->mutable_tensor_type()->set_elem_type(2);
+            ctx.getOutputType(15)->mutable_tensor_type()->set_elem_type(6);
+            ctx.getOutputType(16)->mutable_tensor_type()->set_elem_type(8);
+            ctx.getOutputType(17)->mutable_tensor_type()->set_elem_type(8);
+            ctx.getOutputType(18)->mutable_tensor_type()->set_elem_type(8);
+            ctx.getOutputType(19)->mutable_tensor_type()->set_elem_type(8);
+            ctx.getOutputType(20)->mutable_tensor_type()->set_elem_type(2);
+
+            for (int i = 0; i < ctx.getNumOutputs(); i++) {
+              *ctx.getOutputType(i)->mutable_tensor_type()->mutable_shape() =
+                  ctx.getInputType(0)->tensor_type().shape();
+            }
+      });
+
   MS_AUTOML_OPERATOR_SCHEMA(SampleAdd)
       .SinceVersion(1)
       .SetDomain(kMSAutoMLDomain)
