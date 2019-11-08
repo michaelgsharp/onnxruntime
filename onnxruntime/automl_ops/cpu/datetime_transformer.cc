@@ -19,9 +19,7 @@ class DateTimeTransformer final : public OpKernel {
 };
 
 Status DateTimeTransformer::Compute(OpKernelContext* ctx) const {
-
   auto input_tensor = ctx->Input<Tensor>(0);
-  //ctx->Output<onnxruntime::Tensor>(0);
   Tensor* year_tensor = ctx->Output(0, input_tensor->Shape());
   Tensor* month_tensor = ctx->Output(1, input_tensor->Shape());
   Tensor* day_tensor = ctx->Output(2, input_tensor->Shape());
@@ -43,8 +41,6 @@ Status DateTimeTransformer::Compute(OpKernelContext* ctx) const {
   Tensor* dayOfWeekLabel_tensor = ctx->Output(18, input_tensor->Shape());
   Tensor* holidayName_tensor = ctx->Output(19, input_tensor->Shape());
   Tensor* isPaidTimeOff_tensor = ctx->Output(20, input_tensor->Shape());
-
-  const int64_t length = input_tensor->Shape().GetDims()[0];
 
   const int64_t* tp = input_tensor->Data<int64_t>();
 
@@ -71,6 +67,8 @@ Status DateTimeTransformer::Compute(OpKernelContext* ctx) const {
   std::string* dayOfWeekLabel_data = dayOfWeekLabel_tensor->MutableData<std::string>();
   std::string* holidayName_data = holidayName_tensor->MutableData<std::string>();
   uint8_t* isPaidTimeOff_data = isPaidTimeOff_tensor->MutableData<uint8_t>();
+
+  const int64_t length = input_tensor->Shape().GetDims()[0];
 
   for (int i = 0; i < length; i++) {
     auto time_point = transformer.execute(tp[i]);
