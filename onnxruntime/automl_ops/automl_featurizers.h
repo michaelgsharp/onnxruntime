@@ -6,3 +6,4 @@
 #pragma once
 
 #include "core/automl/featurizers/src/FeaturizerPrep/Featurizers/DateTimeFeaturizer.h"
+#include "core/automl/featurizers/src/FeaturizerPrep/Featurizers/StringFeaturizer.h"

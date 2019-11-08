@@ -99,6 +99,43 @@ void RegisterAutoMLSchemas() {
             }
       });
 
+  static const char* StringTransformer_ver1_doc = R"DOC(
+    StringTransformer accepts a single scalar tensor and converts it
+    to its appropriate string representation by passing it to
+    Microsoft::DateTimeFeaturizer which is a part of a shared library.
+  )DOC";
+
+  MS_AUTOML_OPERATOR_SCHEMA(StringTransformer)
+      .SinceVersion(1)
+      .SetDomain(kMSAutoMLDomain)
+      .SetDoc(StringTransformer_ver1_doc)
+      .Input(0, "X",
+             "The input tensor to convert to a string. Can be any number type, bool, or a string",
+             "T1")
+      .Output(0, "AsString", "input converted to a string, std::string", "tensor(string)")
+      .TypeConstraint(
+          "T1",
+          {"tensor(int8)",
+           "tensor(int16)",
+           "tensor(int32)",
+           "tensor(int64)",
+           "tensor(uint8)",
+           "tensor(uint16)",
+           "tensor(uint32)",
+           "tensor(uint64)",
+           "tensor(float)",
+           "tensor(double)",
+           "tensor(bool)",
+           "tensor(string)"},
+          "Constrain input type to number, bool, or string tensor.")
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) {
+        ctx.getOutputType(0)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_STRING);
+
+        *ctx.getOutputType(0)->mutable_tensor_type()->mutable_shape() =
+            ctx.getInputType(0)->tensor_type().shape();
+      });
+
+
   MS_AUTOML_OPERATOR_SCHEMA(SampleAdd)
       .SinceVersion(1)
       .SetDomain(kMSAutoMLDomain)
