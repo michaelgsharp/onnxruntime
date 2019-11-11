@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#include <string>
+
 #include "core/common/common.h"
 #include "core/framework/data_types.h"
 #include "core/framework/op_kernel.h"
@@ -26,17 +28,32 @@ Status StringTransformer<T>::Compute(OpKernelContext* ctx) const {
   return Status::OK();
 }
 
-ONNX_OPERATOR_KERNEL_EX(
-    StringTransformer,
-    kMSAutoMLDomain,
-    1,
-    kCpuExecutionProvider,
-    KernelDefBuilder()
-        .TypeConstraint("T", DataTypeImpl::GetTensorType<int64_t>())
-        .TypeConstraint("T", DataTypeImpl::GetTensorType<int32_t>())
-        .TypeConstraint("T", DataTypeImpl::GetTensorType<uint8_t>())
-        .TypeConstraint("T", DataTypeImpl::GetTensorType<uint16_t>())
-        .TypeConstraint("T", DataTypeImpl::GetTensorType<std::string>()),
-    StringTransformer);
+#define REG_STRINGFEATURIZER(in_type)                                   \
+  ONNX_OPERATOR_TYPED_KERNEL_EX(                                        \
+      StringTransformer,                                                \
+      kMSAutoMLDomain,                                                  \
+      1,                                                                \
+      in_type,                                                          \
+      kCpuExecutionProvider,                                            \
+      KernelDefBuilder()                                                \
+          .TypeConstraint("T", DataTypeImpl::GetTensorType<in_type>()), \
+      StringTransformer<in_type>);                                      \
+
+REG_STRINGFEATURIZER(int8_t);
+REG_STRINGFEATURIZER(int16_t);
+REG_STRINGFEATURIZER(int32_t);
+REG_STRINGFEATURIZER(int64_t);
+REG_STRINGFEATURIZER(uint8_t);
+REG_STRINGFEATURIZER(uint16_t);
+REG_STRINGFEATURIZER(uint32_t);
+REG_STRINGFEATURIZER(uint64_t);
+REG_STRINGFEATURIZER(float);
+REG_STRINGFEATURIZER(double);
+REG_STRINGFEATURIZER(bool);
+using namespace std;
+REG_STRINGFEATURIZER(string);
+
+
+
 }  // namespace automl
 }  // namespace onnxruntime
