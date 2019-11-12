@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#include <string>
-
 #include "core/common/common.h"
 #include "core/framework/data_types.h"
 #include "core/framework/op_kernel.h"
@@ -37,7 +35,9 @@ Status StringTransformer<T>::Compute(OpKernelContext* ctx) const {
       kCpuExecutionProvider,                                            \
       KernelDefBuilder()                                                \
           .TypeConstraint("T", DataTypeImpl::GetTensorType<in_type>()), \
-      StringTransformer<in_type>);                                      \
+      StringTransformer<in_type>);
+
+using string_type = std::string;
 
 REG_STRINGFEATURIZER(int8_t);
 REG_STRINGFEATURIZER(int16_t);
@@ -47,11 +47,11 @@ REG_STRINGFEATURIZER(uint8_t);
 REG_STRINGFEATURIZER(uint16_t);
 REG_STRINGFEATURIZER(uint32_t);
 REG_STRINGFEATURIZER(uint64_t);
-REG_STRINGFEATURIZER(float);
-REG_STRINGFEATURIZER(double);
+REG_STRINGFEATURIZER(float_t);
+REG_STRINGFEATURIZER(double_t);
 REG_STRINGFEATURIZER(bool);
-using namespace std;
-REG_STRINGFEATURIZER(string);
+REG_STRINGFEATURIZER(string_type);
+
 
 
 
