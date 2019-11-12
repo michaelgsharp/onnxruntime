@@ -43,9 +43,7 @@ Status DateTimeTransformer::Compute(OpKernelContext* ctx) const {
   Tensor* isPaidTimeOff_tensor = ctx->Output(20, input_tensor->Shape());
 
   const int64_t* tp = input_tensor->Data<int64_t>();
-  auto tt = ctx->InputType(0);
-  auto sfd = tt->AsTensorType();
-  std::cout << sfd;
+
   dtf::DateTimeTransformer transformer("", "");
 
   int32_t* year_data = year_tensor->MutableData<int32_t>();

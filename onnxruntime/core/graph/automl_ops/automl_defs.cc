@@ -111,10 +111,10 @@ void RegisterAutoMLSchemas() {
       .SetDoc(StringTransformer_ver1_doc)
       .Input(0, "X",
              "The input tensor to convert to a string. Can be any number type, bool, or a string",
-             "T1")
+             "T")
       .Output(0, "AsString", "input converted to a string, std::string", "tensor(string)")
       .TypeConstraint(
-          "T1",
+          "T",
           {"tensor(int8)",
            "tensor(int16)",
            "tensor(int32)",
@@ -129,7 +129,9 @@ void RegisterAutoMLSchemas() {
            "tensor(string)"},
           "Constrain input type to number, bool, or string tensor.")
       .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) {
-        ctx.getOutputType(0)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_STRING);
+        propagateElemTypeFromDtypeToOutput(ctx, ONNX_NAMESPACE::TensorProto_DataType_STRING, 0);
+
+        //ctx.getOutputType(0)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_STRING);
 
         *ctx.getOutputType(0)->mutable_tensor_type()->mutable_shape() =
             ctx.getInputType(0)->tensor_type().shape();

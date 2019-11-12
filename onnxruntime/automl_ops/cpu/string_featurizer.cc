@@ -21,7 +21,19 @@ class StringTransformer final : public OpKernel {
 
 template <typename T>
 Status StringTransformer<T>::Compute(OpKernelContext* ctx) const {
- 
+  dtf::StringTransformer<T> transformer;
+
+  auto input_tensor = ctx->Input<Tensor>(0);
+  const T* input_data = input_tensor->Data<T>();
+
+  Tensor* string_tensor = ctx->Output(0, input_tensor->Shape());
+  std::string* string_data = string_tensor->MutableData<std::string>();
+
+  const int64_t length = input_tensor->Shape().GetDims()[0];
+
+  for (int i = 0; i < length; i++) {
+    string_data[i] = transformer.execute(input_data[i]);
+  }
 
   return Status::OK();
 }
@@ -37,8 +49,6 @@ Status StringTransformer<T>::Compute(OpKernelContext* ctx) const {
           .TypeConstraint("T", DataTypeImpl::GetTensorType<in_type>()), \
       StringTransformer<in_type>);
 
-using string_type = std::string;
-
 REG_STRINGFEATURIZER(int8_t);
 REG_STRINGFEATURIZER(int16_t);
 REG_STRINGFEATURIZER(int32_t);
@@ -50,7 +60,9 @@ REG_STRINGFEATURIZER(uint64_t);
 REG_STRINGFEATURIZER(float_t);
 REG_STRINGFEATURIZER(double_t);
 REG_STRINGFEATURIZER(bool);
-REG_STRINGFEATURIZER(string_type);
+
+using namespace std;
+REG_STRINGFEATURIZER(string);
 
 
 
