@@ -49,17 +49,8 @@ Status CategoryImputer<T>::Compute(OpKernelContext* ctx) const {
           .TypeConstraint("T", DataTypeImpl::GetTensorType<in_type>()), \
       CategoryImputer<in_type>);
 
-REG_STRINGFEATURIZER(int8_t);
-REG_STRINGFEATURIZER(int16_t);
-REG_STRINGFEATURIZER(int32_t);
-REG_STRINGFEATURIZER(int64_t);
-REG_STRINGFEATURIZER(uint8_t);
-REG_STRINGFEATURIZER(uint16_t);
-REG_STRINGFEATURIZER(uint32_t);
-REG_STRINGFEATURIZER(uint64_t);
 REG_STRINGFEATURIZER(float_t);
 REG_STRINGFEATURIZER(double_t);
-REG_STRINGFEATURIZER(bool);
 
 using namespace std;
 REG_STRINGFEATURIZER(string);

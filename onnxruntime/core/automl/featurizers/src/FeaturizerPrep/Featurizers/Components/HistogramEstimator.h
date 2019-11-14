@@ -85,7 +85,33 @@ private:
     // |  Private Methods
     // |
     // ----------------------------------------------------------------------
-    Estimator::FitResult fit_impl(typename BaseType::FitBufferInputType const *pBuffer, size_t cBuffer) override;
+    Estimator::FitResult fit_impl(typename BaseType::FitBufferInputType const* pBuffer, size_t cBuffer) override {
+      typename BaseType::FitBufferInputType const* const pEndBuffer(pBuffer + cBuffer);
+      while (pBuffer != pEndBuffer) {
+        InputT const& input(*pBuffer++);
+        if (TraitsT::IsNull(input))
+          continue;
+
+        typename Histogram::iterator const iter(
+            // TODO: Base HistogramEstimator on TrainingOnlyEstimatorImpl.h later
+            //       to limit the number of training items if necessary
+            [ this, &input ](void) -> typename Histogram::iterator {
+              NonRefType const& value = GetNullableValue(input);
+              typename Histogram::iterator const i(_histogram.find(value));
+
+              if (i != _histogram.end())
+                return i;
+
+              std::pair<typename Histogram::iterator, bool> const result(_histogram.insert(std::make_pair(value, 0)));
+
+              return result.first;
+            }());
+
+        iter->second += 1;
+      }
+
+      return Estimator::FitResult::Continue;
+    }
 
     Estimator::FitResult complete_training_impl(void) override;
 };
@@ -139,37 +165,6 @@ HistogramAnnotation<T>::HistogramAnnotation(Histogram value) :
 template <typename InputT, size_t ColIndexV>
 HistogramEstimator<InputT,ColIndexV>::HistogramEstimator(AnnotationMapsPtr pAllColumnAnnotations) :
     AnnotationEstimator<InputT const &>("HistogramEstimator", std::move(pAllColumnAnnotations)){
-}
-
-
-template <typename InputT, size_t ColIndexV>
-Estimator::FitResult HistogramEstimator<InputT,ColIndexV>::fit_impl(typename BaseType::FitBufferInputType const *pBuffer, size_t cBuffer) {
-    typename BaseType::FitBufferInputType const * const                 pEndBuffer(pBuffer + cBuffer);
-    while(pBuffer != pEndBuffer) {
-        InputT const &                                   input(*pBuffer++);
-        if(TraitsT::IsNull(input))
-            continue;
-
-        typename Histogram::iterator const           iter(
-            // TODO: Base HistogramEstimator on TrainingOnlyEstimatorImpl.h later
-            //       to limit the number of training items if necessary
-            [this, &input](void) -> typename Histogram::iterator {
-                NonRefType const& value = GetNullableValue(input);
-                typename Histogram::iterator const   i(_histogram.find(value));
-
-                if(i != _histogram.end())
-                    return i;
-
-                std::pair<typename Histogram::iterator, bool> const      result(_histogram.insert(std::make_pair(value, 0)));
-
-                return result.first;
-            }()
-        );
-
-        iter->second += 1;
-    }
-
-    return Estimator::FitResult::Continue;
 }
 
 template <typename InputT, size_t ColIndexV>
