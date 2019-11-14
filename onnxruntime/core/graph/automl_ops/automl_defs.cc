@@ -102,7 +102,7 @@ void RegisterAutoMLSchemas() {
   static const char* StringTransformer_ver1_doc = R"DOC(
     StringTransformer accepts a single scalar tensor and converts it
     to its appropriate string representation by passing it to
-    Microsoft::DateTimeFeaturizer which is a part of a shared library.
+    Microsoft::StringFeaturizer which is a part of a shared library.
   )DOC";
 
   MS_AUTOML_OPERATOR_SCHEMA(StringTransformer)
@@ -136,6 +136,30 @@ void RegisterAutoMLSchemas() {
         *ctx.getOutputType(0)->mutable_tensor_type()->mutable_shape() =
             ctx.getInputType(0)->tensor_type().shape();
       });
+
+  static const char* CatImputer_ver1_doc = R"DOC(
+    CatImputer accepts a single scalar tensor and fills in
+    any missing values in the tensor by passing it to
+    Microsoft::CatImputerFeaturizer which is a part of a shared library.
+  )DOC";
+
+  MS_AUTOML_OPERATOR_SCHEMA(CategoryImputer)
+      .SinceVersion(1)
+      .SetDomain(kMSAutoMLDomain)
+      .SetDoc(CatImputer_ver1_doc)
+      .Input(0, "X",
+             "The input tensor that needs missing values filled. Can be float or double.",
+             "T")
+      .Output(0, "ImputedValues", "Input tensor with missing values replaced", "T")
+      .TypeConstraint(
+          "T",
+          {"tensor(float)",
+           "tensor(double)"},
+          "Constrain input type to a float or double tensor.")
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) {
+        propagateShapeAndTypeFromFirstInput(ctx);
+      });
+
 
 
   MS_AUTOML_OPERATOR_SCHEMA(SampleAdd)
