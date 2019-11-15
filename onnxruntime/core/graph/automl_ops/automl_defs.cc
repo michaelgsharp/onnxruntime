@@ -147,17 +147,25 @@ void RegisterAutoMLSchemas() {
       .SinceVersion(1)
       .SetDomain(kMSAutoMLDomain)
       .SetDoc(CatImputer_ver1_doc)
-      .Input(0, "X",
+      .Input(0, "State",
+             "State generated for the Catagory Imputer during training.",
+             "tensor(uint8)")
+      .Input(1, "X",
              "The input tensor that needs missing values filled. Can be float or double.",
              "T")
       .Output(0, "ImputedValues", "Input tensor with missing values replaced", "T")
       .TypeConstraint(
           "T",
           {"tensor(float)",
-           "tensor(double)"},
-          "Constrain input type to a float or double tensor.")
+           "tensor(double)",
+           "tensor(string)"},
+          "Constrain input type to a float or double or string tensor.")
       .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) {
-        propagateShapeAndTypeFromFirstInput(ctx);
+        propagateElemTypeFromInputToOutput(ctx, 1, 0);
+        if (!hasNInputShapes(ctx, 1)) {
+          return;
+        }
+        propagateShapeFromInputToOutput(ctx, 1, 0);
       });
 
 
