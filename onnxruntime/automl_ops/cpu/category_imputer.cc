@@ -21,9 +21,13 @@ class CategoryImputer final : public OpKernel {
 };
 
 template <typename T>
-T Execute(dtf::CatImputerTransformer<T> transformer, typename T data) {
-  return data;
-    //return transformer.execute(data);
+T Execute(typename dtf::CatImputerEstimator<T>::Transformer& transformer, const T& data) {
+  return transformer.execute(data);
+}
+
+template <>
+std::string Execute<std::string>(dtf::CatImputerEstimator<std::string>::Transformer& transformer, const std::string& data) {
+  return transformer.execute(data.empty() ? nonstd::optional<std::string>() : data);
 }
 
 template <typename T>
@@ -43,42 +47,12 @@ Status CategoryImputer<T>::Compute(OpKernelContext* ctx) const {
   const int64_t length = input_tensor->Shape().GetDims()[0];
 
   for (int i = 0; i < length; i++) {
-    //output_data[i] = execute<T>(input_data[i]);
-    //if (std::is_same<T, std::string>::value) {
-    //  if (std::static_cast<std::string>(input_data[i]) == "") {
-    //    output_data[i] = transformer.execute(nonstd::optional<std::string>());
-    //  } else {
-    //    output_data[i] = transformer.execute(input_data[i]);
-    //  }
-    //  //output_data[i] = transformer.execute(input_data[i] == "" ? input_data[i] : nonstd::optional<std::string>());
-    //} else {
-    //  output_data[i] = transformer.execute(input_data[i]);
-    //}
 
-    if (is_same<T, std::string>::value) {
-      auto tt = input_data[i];
-      
-      //bool t = tt.empty();
-      std::cout << tt;
-    }
-    auto t = input_data[i];
-    std::cout << t;
-    output_data[i] = transformer.execute(input_data[i]);
+    output_data[i] = Execute(transformer, input_data[i]);
   }
 
   return Status::OK();
 }
-
-//template <typename T>
-//T Execute(dtf::CatImputerEstimator<T>::Transformer transformer, typename T data) {
-//  return data;
-//    //return transformer.execute(data);
-//}
-//
-//template <>
-//std::string execute<std::string>(dtf::CatImputerEstimator<std::string>::Transformer& transformer, std::string data) {
-//  return transformer.execute(data == "" ? data : nonstd::optional<std::string>());
-//}
 
 #define REG_STRINGFEATURIZER(in_type)                                   \
   ONNX_OPERATOR_TYPED_KERNEL_EX(                                        \
