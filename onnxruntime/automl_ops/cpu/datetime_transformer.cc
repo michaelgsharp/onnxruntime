@@ -19,7 +19,13 @@ class DateTimeTransformer final : public OpKernel {
 };
 
 Status DateTimeTransformer::Compute(OpKernelContext* ctx) const {
-  auto input_tensor = ctx->Input<Tensor>(0);
+  auto state_tensor = ctx->Input<Tensor>(0);
+  const uint8_t* state_data = state_tensor->Data<uint8_t>();
+
+  Microsoft::Featurizer::Archive archive(state_data, state_tensor->Shape().GetDims()[0]);
+  dtf::DateTimeTransformer transformer(archive);
+
+  auto input_tensor = ctx->Input<Tensor>(1);
   Tensor* year_tensor = ctx->Output(0, input_tensor->Shape());
   Tensor* month_tensor = ctx->Output(1, input_tensor->Shape());
   Tensor* day_tensor = ctx->Output(2, input_tensor->Shape());
@@ -43,8 +49,6 @@ Status DateTimeTransformer::Compute(OpKernelContext* ctx) const {
   Tensor* isPaidTimeOff_tensor = ctx->Output(20, input_tensor->Shape());
 
   const int64_t* tp = input_tensor->Data<int64_t>();
-
-  dtf::DateTimeTransformer transformer("", "");
 
   int32_t* year_data = year_tensor->MutableData<int32_t>();
   uint8_t* month_data = month_tensor->MutableData<uint8_t>();

@@ -25,7 +25,10 @@ void RegisterAutoMLSchemas() {
       .SinceVersion(1)
       .SetDomain(kMSAutoMLDomain)
       .SetDoc(DateTimeTransformer_ver1_doc)
-      .Input(0, "X",
+      .Input(0, "State",
+             "State generated for the Catagory Imputer during training.",
+             "tensor(uint8)")
+      .Input(1, "X",
              "The input represents a number of seconds passed since the epoch, suitable to properly construct"
              "an instance of std::chrono::system_clock::time_point",
              "T1")
