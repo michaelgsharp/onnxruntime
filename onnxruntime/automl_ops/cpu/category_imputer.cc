@@ -54,7 +54,7 @@ Status CategoryImputer<T>::Compute(OpKernelContext* ctx) const {
   return Status::OK();
 }
 
-#define REG_STRINGFEATURIZER(in_type)                                   \
+#define REG_CATIMPUTERFEATURIZER(in_type)                                   \
   ONNX_OPERATOR_TYPED_KERNEL_EX(                                        \
       CategoryImputer,                                                  \
       kMSAutoMLDomain,                                                  \
@@ -65,11 +65,11 @@ Status CategoryImputer<T>::Compute(OpKernelContext* ctx) const {
           .TypeConstraint("T", DataTypeImpl::GetTensorType<in_type>()), \
       CategoryImputer<in_type>);
 
-REG_STRINGFEATURIZER(float_t);
-REG_STRINGFEATURIZER(double_t);
+REG_CATIMPUTERFEATURIZER(float_t);
+REG_CATIMPUTERFEATURIZER(double_t);
 
 using namespace std;
-REG_STRINGFEATURIZER(string);
+REG_CATIMPUTERFEATURIZER(string);
 
 }  // namespace automl
 }  // namespace onnxruntime

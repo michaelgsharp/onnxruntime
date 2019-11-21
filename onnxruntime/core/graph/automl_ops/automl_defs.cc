@@ -74,32 +74,32 @@ void RegisterAutoMLSchemas() {
           {"tensor(string)"},
           "Constrain output type to string")
       .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) {
-            ctx.getOutputType(0)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_INT32);
-            ctx.getOutputType(1)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
-            ctx.getOutputType(2)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
-            ctx.getOutputType(3)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
-            ctx.getOutputType(4)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
-            ctx.getOutputType(5)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
-            ctx.getOutputType(6)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
-            ctx.getOutputType(7)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
-            ctx.getOutputType(8)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
-            ctx.getOutputType(9)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
-            ctx.getOutputType(10)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT16);
-            ctx.getOutputType(12)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT16);
-            ctx.getOutputType(12)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
-            ctx.getOutputType(13)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
-            ctx.getOutputType(14)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
-            ctx.getOutputType(15)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT32);
-            ctx.getOutputType(16)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_STRING);
-            ctx.getOutputType(17)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_STRING);
-            ctx.getOutputType(18)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_STRING);
-            ctx.getOutputType(19)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_STRING);
-            ctx.getOutputType(20)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
+        ctx.getOutputType(0)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_INT32);
+        ctx.getOutputType(1)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
+        ctx.getOutputType(2)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
+        ctx.getOutputType(3)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
+        ctx.getOutputType(4)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
+        ctx.getOutputType(5)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
+        ctx.getOutputType(6)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
+        ctx.getOutputType(7)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
+        ctx.getOutputType(8)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
+        ctx.getOutputType(9)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
+        ctx.getOutputType(10)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT16);
+        ctx.getOutputType(12)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT16);
+        ctx.getOutputType(12)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
+        ctx.getOutputType(13)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
+        ctx.getOutputType(14)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
+        ctx.getOutputType(15)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT32);
+        ctx.getOutputType(16)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_STRING);
+        ctx.getOutputType(17)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_STRING);
+        ctx.getOutputType(18)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_STRING);
+        ctx.getOutputType(19)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_STRING);
+        ctx.getOutputType(20)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_UINT8);
 
-            for (int i = 0; i < ctx.getNumOutputs(); i++) {
-              *ctx.getOutputType(i)->mutable_tensor_type()->mutable_shape() =
-                  ctx.getInputType(0)->tensor_type().shape();
-            }
+        for (int i = 0; i < ctx.getNumOutputs(); i++) {
+          *ctx.getOutputType(i)->mutable_tensor_type()->mutable_shape() =
+              ctx.getInputType(0)->tensor_type().shape();
+        }
       });
 
   static const char* StringTransformer_ver1_doc = R"DOC(
@@ -171,7 +171,62 @@ void RegisterAutoMLSchemas() {
         propagateShapeFromInputToOutput(ctx, 1, 0);
       });
 
+  static const char* MaxAbsScaler_ver1_doc = R"DOC(
+    Scales numbers <TODO: fill in more info later>
+    Microsoft::MaxAbsScalerFeaturizer which is a part of a shared library.
+  )DOC";
 
+  MS_AUTOML_OPERATOR_SCHEMA(MaxAbsScaler)
+      .SinceVersion(1)
+      .SetDomain(kMSAutoMLDomain)
+      .SetDoc(MaxAbsScaler_ver1_doc)
+      .Input(0, "State",
+             "State generated for the MaxAbsScaler during training.",
+             "tensor(uint8)")
+      .Input(1, "X",
+             "The input tensor that needs missing values filled. Can be float or double.",
+             "T")
+      .Output(0, "ScaledValues", "Input tensor with missing values replaced", "T1")
+      .TypeConstraint(
+          "T",
+          {"tensor(int8)",
+           "tensor(int16)",
+           "tensor(int32)",
+           "tensor(int64)",
+           "tensor(uint8)",
+           "tensor(uint16)",
+           "tensor(uint32)",
+           "tensor(uint64)",
+           "tensor(float)",
+           "tensor(double)"},
+          "Constrain input type to a float or double or string tensor.")
+      .TypeConstraint(
+          "T1",
+          {"tensor(float)",
+           "tensor(double)"},
+          "Constrain input type to a float or double or string tensor.")
+      .TypeAndShapeInferenceFunction([](ONNX_NAMESPACE::InferenceContext& ctx) {
+        auto input_elem_type = ctx.getInputType(1)->tensor_type().elem_type();
+        if (input_elem_type == ONNX_NAMESPACE::TensorProto_DataType_INT8 ||
+            input_elem_type == ONNX_NAMESPACE::TensorProto_DataType_INT16 ||
+            input_elem_type == ONNX_NAMESPACE::TensorProto_DataType_UINT8 ||
+            input_elem_type == ONNX_NAMESPACE::TensorProto_DataType_UINT16 ||
+            input_elem_type == ONNX_NAMESPACE::TensorProto_DataType_FLOAT) {
+          ctx.getOutputType(0)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_FLOAT);
+        } else if (input_elem_type == ONNX_NAMESPACE::TensorProto_DataType_INT32 ||
+            input_elem_type == ONNX_NAMESPACE::TensorProto_DataType_INT64 ||
+            input_elem_type == ONNX_NAMESPACE::TensorProto_DataType_UINT32 ||
+            input_elem_type == ONNX_NAMESPACE::TensorProto_DataType_UINT64 ||
+            input_elem_type == ONNX_NAMESPACE::TensorProto_DataType_DOUBLE) {
+          ctx.getOutputType(0)->mutable_tensor_type()->set_elem_type(ONNX_NAMESPACE::TensorProto_DataType_DOUBLE);
+        }
+
+        if (!hasNInputShapes(ctx, 1)) {
+          return;
+        }
+        *ctx.getOutputType(0)->mutable_tensor_type()->mutable_shape() =
+            ctx.getInputType(1)->tensor_type().shape();
+      });
 
   MS_AUTOML_OPERATOR_SCHEMA(SampleAdd)
       .SinceVersion(1)
