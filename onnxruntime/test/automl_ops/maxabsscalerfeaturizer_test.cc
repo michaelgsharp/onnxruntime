@@ -4,7 +4,7 @@
 #include "gtest/gtest.h"
 #include "test/providers/provider_test_utils.h"
 
-#include "core/automl/featurizers/src/FeaturizerPrep/Featurizers/MaxAbsScalarFeaturizer.h"
+#include "core/automl/featurizers/src/Featurizers/MaxAbsScalarFeaturizer.h"
 
 namespace dft = Microsoft::Featurizer::Featurizers;
 

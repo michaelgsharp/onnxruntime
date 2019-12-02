@@ -5,7 +5,7 @@
 #include "core/framework/data_types.h"
 #include "core/framework/op_kernel.h"
 
-#include "core/automl/featurizers/src/FeaturizerPrep/Featurizers/StringFeaturizer.h"
+#include "core/automl/featurizers/src/Featurizers/StringFeaturizer.h"
 
 namespace dtf = Microsoft::Featurizer::Featurizers;
 

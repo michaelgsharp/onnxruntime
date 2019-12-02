@@ -13,7 +13,60 @@ using ONNX_NAMESPACE::AttributeProto;
 using ONNX_NAMESPACE::OpSchema;
 using ONNX_NAMESPACE::OPTIONAL;
 
+void RegisterCatImputerFeaturizer(void) {
+  static const char* doc = R"DOC(
+        Imputes (populates) values with the mode (most common value) encountered during
+        training. This featurizer supports float and double for most (if not all) frameworks
+        due to the existance of NaN in those types. Other types require 'optional' support
+        within the host frameworks and programming languages.
+
+        C++-style pseudo signature:
+          std::float_t execute(std::float_t const &value);
+          std::double_t execute(std::double_t const &value);
+          template <typename T> T execute(std::optional<T> const &value);
+
+        Examples (where 55.5 is the mode value):
+          execute(1.0) -> 1.0
+          execute(NaN) -> 55.5
+          execute(2.0) -> 2.0
+    )DOC";
+
+  MS_AUTOML_OPERATOR_SCHEMA(CatImputerTransformer)
+      .SinceVersion(1)
+      .SetDomain(kMSAutoMLDomain)
+      .SetDoc(doc)
+      .Input(
+          0,
+          "State",
+          "State generated during training that is used for prediction",
+          "tensor(uint8)")
+      .Input(
+          1,
+          "Input",
+          "No information is available",
+          "T")
+      .Output(
+          0,
+          "Output",
+          "No information is available",
+          "T")
+      .TypeConstraint(
+          "T",
+          {"tensor(float_t)", "tensor(double_t)", "tensor(string)"},
+          "No information is available")
+      .TypeAndShapeInferenceFunction(
+          [](ONNX_NAMESPACE::InferenceContext& ctx) {
+            propagateElemTypeFromInputToOutput(ctx, 1, 0);
+            if (!hasNInputShapes(ctx, 1)) {
+              return;
+            }
+            propagateShapeFromInputToOutput(ctx, 1, 0);
+          });
+}
+
 void RegisterAutoMLSchemas() {
+  RegisterCatImputerFeaturizer();
+
   static const char* DateTimeTransformer_ver1_doc = R"DOC(
     DateTimeTransformer accepts a single scalar int64 tensor, constructs
     an instance of std::chrono::system_clock::time_point and passes it as an argument
@@ -140,7 +193,7 @@ void RegisterAutoMLSchemas() {
             ctx.getInputType(0)->tensor_type().shape();
       });
 
-  static const char* CatImputer_ver1_doc = R"DOC(
+  /*static const char* CatImputer_ver1_doc = R"DOC(
     CatImputer accepts a single scalar tensor and fills in
     any missing values in the tensor by passing it to
     Microsoft::CatImputerFeaturizer which is a part of a shared library.
@@ -169,7 +222,7 @@ void RegisterAutoMLSchemas() {
           return;
         }
         propagateShapeFromInputToOutput(ctx, 1, 0);
-      });
+      });*/
 
   static const char* MaxAbsScaler_ver1_doc = R"DOC(
     Scales numbers <TODO: fill in more info later>
@@ -228,25 +281,6 @@ void RegisterAutoMLSchemas() {
             ctx.getInputType(1)->tensor_type().shape();
       });
 
-  MS_AUTOML_OPERATOR_SCHEMA(SampleAdd)
-      .SinceVersion(1)
-      .SetDomain(kMSAutoMLDomain)
-      .SetDoc(DateTimeTransformer_ver1_doc)
-      .Input(0, "X",
-             "The input represents a number of seconds passed since the epoch, suitable to properly construct"
-             "an instance of std::chrono::system_clock::time_point",
-             "T1")
-      .Output(0, "Y", "The output which is a Microsoft::DateTimeFeaturizer::TimePoint structure", "T2")
-      .TypeConstraint(
-          "T1",
-          {"tensor(int64)"},
-          "Constrain input type to int64 scalar tensor.")
-      .TypeConstraint(
-          "T2",
-          {"opaque(com.microsoft.automl,DateTimeFeaturizer_TimePoint)"},
-          "Constrain output type to an AutoML specific Microsoft::Featurizers::TimePoint type"
-          "currently not part of ONNX standard. When it becomes a part of the standard we will adjust this"
-          "kernel definition and move it to ONNX repo");
 }
 }  // namespace automl
 }  // namespace onnxruntime
