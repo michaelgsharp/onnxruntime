@@ -79,10 +79,11 @@ struct TimePoint {
     // January 4. As such, ISO years may differ from calendar years.
 
     TimePoint(const std::chrono::system_clock::time_point& sysTime);
+    
+    // Needs to be default constructable
     TimePoint() = default;
 
-    // Needs to be default constructable
-    //FEATURIZER_MOVE_CONSTRUCTOR_ONLY(TimePoint);
+    FEATURIZER_MOVE_CONSTRUCTOR_ONLY(TimePoint);
 
     enum {
         JANUARY = 1, FEBRUARY, MARCH, APRIL, MAY, JUNE,

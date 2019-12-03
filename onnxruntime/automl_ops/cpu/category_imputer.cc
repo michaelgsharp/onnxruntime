@@ -113,16 +113,12 @@ class CatImputerTransformer final : public OpKernel {
 
   Status Compute(OpKernelContext* ctx) const override {
     // Create the transformer
-    featurizers::CatImputerTransformer<Microsoft::Featurizer::Traits<T>::nullable_type, typename OutputTypeMapper<T>::type> transformer(std::move(
-        [ctx](void) {
-          auto state_tensor(ctx->Input<Tensor>(0));
-          uint8_t const* const state_data(state_tensor->Data<uint8_t>());
 
-          Microsoft::Featurizer::Archive archive(state_data, state_tensor->Shape().GetDims()[0]);
+    auto state_tensor(ctx->Input<Tensor>(0));
+    uint8_t const* const state_data(state_tensor->Data<uint8_t>());
+    Microsoft::Featurizer::Archive archive(state_data, state_tensor->Shape().GetDims()[0]);
 
-          featurizers::CatImputerTransformer<Microsoft::Featurizer::Traits<T>::nullable_type, typename OutputTypeMapper<T>::type> transformer(archive);
-          return transformer;
-        }()));
+    featurizers::CatImputerTransformer<Microsoft::Featurizer::Traits<T>::nullable_type, typename OutputTypeMapper<T>::type> transformer(archive);
 
     // Get the input
     auto input_tensor(ctx->Input<Tensor>(1));
