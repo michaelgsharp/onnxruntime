@@ -36,8 +36,7 @@ namespace automl {
   }
 
 // No types to register, but keeping this here so if we need to register them the we can more easily do so.
-void RegisterAutoMLTypes(const std::function<void(MLDataType)>& reg_fn) {
-}
+void RegisterAutoMLTypes(const std::function<void(MLDataType)>& /*reg_fn*/) {}
 #undef REGISTER_CUSTOM_PROTO
 } // namespace automl
 } // namespace onnxruntime

@@ -13,49 +13,49 @@ namespace test {
 
 TEST(CategoryImputer, Float_values) {
 
-  OpTester test("CategoryImputer", 1, onnxruntime::kMSAutoMLDomain);
+  OpTester test("CatImputerTransformer", 1, onnxruntime::kMSAutoMLDomain);
   
-  // State from when the transformer was trained. Corresponds to Version 1 and a 
+  // State from when the transformer was trained. Corresponds to a 
   // most frequent value during training of 1.5
-  test.AddInput<uint8_t>("State", {5}, {1, 0, 0, 192, 63});
+  test.AddInput<uint8_t>("State", {4}, {0, 0, 192, 63});
 
   // We are adding a scalar Tensor in this instance
-  test.AddInput<float_t>("X", {5}, {1, std::nanf("1"), std::nanf("1"), 2, std::nanf("1")});
+  test.AddInput<float_t>("Input", {5}, {1, std::nanf("1"), std::nanf("1"), 2, std::nanf("1")});
 
   // Expected output.
-  test.AddOutput<float_t>("ImputedValues", {5}, {1, 1.5, 1.5, 2, 1.5});
+  test.AddOutput<float_t>("Output", {5}, {1, 1.5, 1.5, 2, 1.5});
 
   test.Run(OpTester::ExpectResult::kExpectSuccess);
 }
 
 TEST(CategoryImputer, Double_values) {
-  OpTester test("CategoryImputer", 1, onnxruntime::kMSAutoMLDomain);
+  OpTester test("CatImputerTransformer", 1, onnxruntime::kMSAutoMLDomain);
 
-  // State from when the transformer was trained. Corresponds to Version 1 and a
+  // State from when the transformer was trained. Corresponds to a
   // most frequent value during training of 1.5
-  test.AddInput<uint8_t>("State", {9}, {1, 0, 0, 0, 0, 0, 0, 248, 63});
+  test.AddInput<uint8_t>("State", {8}, {0, 0, 0, 0, 0, 0, 248, 63});
 
   // We are adding a scalar Tensor in this instance
-  test.AddInput<double_t>("X", {5}, {1, std::nan("1"), std::nan("1"), 2, std::nan("1")});
+  test.AddInput<double_t>("Input", {5}, {1, std::nan("1"), std::nan("1"), 2, std::nan("1")});
 
   // Expected output.
-  test.AddOutput<double_t>("ImputedValues", {5}, {1, 1.5, 1.5, 2, 1.5});
+  test.AddOutput<double_t>("Output", {5}, {1, 1.5, 1.5, 2, 1.5});
 
   test.Run(OpTester::ExpectResult::kExpectSuccess);
 }
 
 TEST(CategoryImputer, String_values) {
-  OpTester test("CategoryImputer", 1, onnxruntime::kMSAutoMLDomain);
+  OpTester test("CatImputerTransformer", 1, onnxruntime::kMSAutoMLDomain);
 
-  // State from when the transformer was trained. Corresponds to Version 1 and a
+  // State from when the transformer was trained. Corresponds to a
   // most frequent value during training of "one"
-  test.AddInput<uint8_t>("State", {8}, {1, 3, 0, 0, 0, 111, 110, 101});
+  test.AddInput<uint8_t>("State", {7}, {3, 0, 0, 0, 111, 110, 101});
 
   // We are adding a scalar Tensor in this instance
-  test.AddInput<std::string>("X", {5}, {"ONE", "", "FIVE", "", "NINE"});
+  test.AddInput<std::string>("Input", {5}, {"ONE", "", "FIVE", "", "NINE"});
 
   // Expected output.
-  test.AddOutput<std::string>("ImputedValues", {5}, {"ONE", "one", "FIVE", "one", "NINE"});
+  test.AddOutput<std::string>("Output", {5}, {"ONE", "one", "FIVE", "one", "NINE"});
 
   test.Run(OpTester::ExpectResult::kExpectSuccess);
 }

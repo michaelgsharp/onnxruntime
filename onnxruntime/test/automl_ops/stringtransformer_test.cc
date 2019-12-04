@@ -12,26 +12,31 @@ namespace onnxruntime {
 namespace test {
 
 TEST(StringTransformer, Integer_values) {
-
   OpTester test("StringTransformer", 1, onnxruntime::kMSAutoMLDomain);
   
+  // State input is needed, but no actual state is required.
+  test.AddInput<uint8_t>("State", {0}, {});
+  
   // We are adding a scalar Tensor in this instance
-  test.AddInput<int64_t>("X", {5}, {1,3,5,7,9});
+  test.AddInput<int64_t>("Input", {5}, {1, 3, 5, 7, 9});
 
   // Expected output.
-  test.AddOutput<std::string>("AsString", {5}, {"1", "3", "5", "7", "9"});
+  test.AddOutput<std::string>("Output", {5}, {"1", "3", "5", "7", "9"});
 
   test.Run(OpTester::ExpectResult::kExpectSuccess);
 }
 
 TEST(StringTransformer, Double_values) {
   OpTester test("StringTransformer", 1, onnxruntime::kMSAutoMLDomain);
+  
+  // State input is needed, but no actual state is required.
+  test.AddInput<uint8_t>("State", {0}, {});
 
   // We are adding a scalar Tensor in this instance
-  test.AddInput<double>("X", {5}, {1, 3, 5, 7, 9});
+  test.AddInput<double>("Input", {5}, {1, 3, 5, 7, 9});
 
   // Expected output.
-  test.AddOutput<std::string>("AsString", {5}, {"1.000000", "3.000000", "5.000000", "7.000000", "9.000000"});
+  test.AddOutput<std::string>("Output", {5}, {"1.000000", "3.000000", "5.000000", "7.000000", "9.000000"});
 
   test.Run(OpTester::ExpectResult::kExpectSuccess);
 }
@@ -39,11 +44,14 @@ TEST(StringTransformer, Double_values) {
 TEST(StringTransformer, Bool_values) {
   OpTester test("StringTransformer", 1, onnxruntime::kMSAutoMLDomain);
 
+  // State input is needed, but no actual state is required.
+  test.AddInput<uint8_t>("State", {0}, {});
+
   // We are adding a scalar Tensor in this instance
-  test.AddInput<bool>("X", {5}, {true, false, false, false, true});
+  test.AddInput<bool>("Input", {5}, {true, false, false, false, true});
 
   // Expected output.
-  test.AddOutput<std::string>("AsString", {5}, {"True", "False", "False", "False", "True"});
+  test.AddOutput<std::string>("Output", {5}, {"True", "False", "False", "False", "True"});
 
   test.Run(OpTester::ExpectResult::kExpectSuccess);
 }
@@ -51,11 +59,14 @@ TEST(StringTransformer, Bool_values) {
 TEST(StringTransformer, String_values) {
   OpTester test("StringTransformer", 1, onnxruntime::kMSAutoMLDomain);
 
+  // State input is needed, but no actual state is required.
+  test.AddInput<uint8_t>("State", {0}, {});
+
   // We are adding a scalar Tensor in this instance
-  test.AddInput<std::string>("X", {5}, {"ONE", "three", "FIVE", "SeVeN", "NINE"});
+  test.AddInput<std::string>("Input", {5}, {"ONE", "three", "FIVE", "SeVeN", "NINE"});
 
   // Expected output.
-  test.AddOutput<std::string>("AsString", {5}, {"ONE", "three", "FIVE", "SeVeN", "NINE"});
+  test.AddOutput<std::string>("Output", {5}, {"ONE", "three", "FIVE", "SeVeN", "NINE"});
 
   test.Run(OpTester::ExpectResult::kExpectSuccess);
 }

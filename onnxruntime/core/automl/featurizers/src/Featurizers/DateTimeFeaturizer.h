@@ -66,10 +66,10 @@ struct TimePoint {
     std::uint8_t halfOfYear = 0;    // 1 if date is prior to July 1, 2 otherwise
     std::uint8_t weekIso = 0;       // ISO week, see below for details
     std::int32_t yearIso = 0;      // ISO year, see details later
-    std::string monthLabel;    // calendar month as string, 'January' through 'December'
-    std::string amPmLabel;     // 'am' if hour is before noon (12 pm), 'pm' otherwise
-    std::string dayOfWeekLabel;// day of week as string
-    std::string holidayName;   // If a country is provided, we check if the date is a holiday
+    std::string monthLabel = "";    // calendar month as string, 'January' through 'December'
+    std::string amPmLabel = "";     // 'am' if hour is before noon (12 pm), 'pm' otherwise
+    std::string dayOfWeekLabel = "";// day of week as string
+    std::string holidayName = "";   // If a country is provided, we check if the date is a holiday
     std::uint8_t isPaidTimeOff = 0; // If its a holiday, is it PTO
 
     // ISO year and week are defined in ISO 8601, see Wikipedia.ISO for details.
@@ -79,9 +79,6 @@ struct TimePoint {
     // January 4. As such, ISO years may differ from calendar years.
 
     TimePoint(const std::chrono::system_clock::time_point& sysTime);
-    
-    // Needs to be default constructable
-    TimePoint() = default;
 
     FEATURIZER_MOVE_CONSTRUCTOR_ONLY(TimePoint);
 

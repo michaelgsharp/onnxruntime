@@ -13,7 +13,7 @@ namespace test {
 
 TEST(MaxAbsScaler, Int8_values) {
 
-  OpTester test("MaxAbsScaler", 1, onnxruntime::kMSAutoMLDomain);
+  OpTester test("MaxAbsScalarTransformer", 1, onnxruntime::kMSAutoMLDomain);
   
   // State from when the transformer was trained. Corresponds to Version 1 and a 
   // scale of 0
@@ -29,7 +29,7 @@ TEST(MaxAbsScaler, Int8_values) {
 }
 
 TEST(MaxAbsScaler, Double_values) {
-  OpTester test("MaxAbsScaler", 1, onnxruntime::kMSAutoMLDomain);
+  OpTester test("MaxAbsScalarTransformer", 1, onnxruntime::kMSAutoMLDomain);
 
   // State from when the transformer was trained. Corresponds to Version 1 and a
   // scale of 0

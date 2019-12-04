@@ -7,7 +7,7 @@
 
 #include "core/automl/featurizers/src/Featurizers/DateTimeFeaturizer.h"
 
-namespace dtf = Microsoft::Featurizer::Featurizers;
+namespace featurizers = Microsoft::Featurizer::Featurizers;
 
 namespace onnxruntime {
 namespace automl {
@@ -19,11 +19,20 @@ class DateTimeTransformer final : public OpKernel {
 };
 
 Status DateTimeTransformer::Compute(OpKernelContext* ctx) const {
-  auto state_tensor = ctx->Input<Tensor>(0);
+  /*auto state_tensor = ctx->Input<Tensor>(0);
   const uint8_t* state_data = state_tensor->Data<uint8_t>();
 
   Microsoft::Featurizer::Archive archive(state_data, state_tensor->Shape().GetDims()[0]);
-  dtf::DateTimeTransformer transformer(archive);
+  dtf::DateTimeTransformer transformer(archive);*/
+
+        featurizers::DateTimeTransformer transformer(
+      [ctx](void) {
+        auto state_tensor(ctx->Input<Tensor>(0));
+        uint8_t const* const state_data(state_tensor->Data<uint8_t>());
+
+        Microsoft::Featurizer::Archive archive(state_data, state_tensor->Shape().GetDims()[0]);
+        return featurizers::DateTimeTransformer(archive);
+      }());
 
   auto input_tensor = ctx->Input<Tensor>(1);
   Tensor* year_tensor = ctx->Output(0, input_tensor->Shape());
